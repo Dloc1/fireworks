@@ -26,8 +26,7 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            /* 调整高度为相对单位，确保在不同屏幕下显示合理 */
-            height: 15vh; 
+            height: 15vh;
         }
 
         .building {
@@ -40,7 +39,7 @@
         .light {
             position: absolute;
             background-color: #fff;
-            animation: blink 3s ease - in - out infinite;
+            animation: blink 3s ease-in-out infinite;
         }
 
         @keyframes blink {
@@ -62,7 +61,18 @@
             height: 8vw;
             border-radius: 50%;
             background-color: #FFFFCC;
-            box-shadow: 0 0 20px #FFFFCC;
+            box-shadow: 0 0 20px #FFFFCC, 0 0 50px rgba(255, 255, 204, 0.5);
+            animation: moonGlow 10s ease-in-out infinite;
+        }
+
+        @keyframes moonGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 20px #FFFFCC, 0 0 50px rgba(255, 255, 204, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 30px #FFFFCC, 0 0 70px rgba(255, 255, 204, 0.7);
+            }
         }
 
         /* 星星样式 */
@@ -72,7 +82,7 @@
             height: 0.2vw;
             background-color: #fff;
             border-radius: 50%;
-            animation: twinkle 3s ease - in - out infinite;
+            animation: twinkle 3s ease-in-out infinite;
         }
 
         @keyframes twinkle {
@@ -309,13 +319,17 @@
             let cityHTML = '';
             for (let i = 0; i < numBuildings; i++) {
                 const width = Math.random() * 30 + 20;
-                const height = Math.random() * (15 * (window.innerHeight / 100)) + 10;
+                // 调整楼房高度的随机范围，使其更高
+                const height = Math.random() * (30 * (window.innerHeight / 100)) + 20; 
                 let buildingHTML = `<div class="building" style="width: ${width}px; height: ${height}px; left: ${i * 50}px;">`;
                 const numLights = Math.floor(height / 20);
+                // 随机选择白色或暖黄色
+                const lightColors = ['#fff', '#FFE4B5'];
                 for (let j = 0; j < numLights; j++) {
                     const lightWidth = 5;
                     const lightHeight = 8;
-                    buildingHTML += `<div class="light" style="width: ${lightWidth}px; height: ${lightHeight}px; left: ${Math.random() * (width - lightWidth)}px; bottom: ${j * 20 + 10}px;"></div>`;
+                    const lightColor = lightColors[Math.floor(Math.random() * lightColors.length)];
+                    buildingHTML += `<div class="light" style="width: ${lightWidth}px; height: ${lightHeight}px; left: ${Math.random() * (width - lightWidth)}px; bottom: ${j * 20 + 10}px; background-color: ${lightColor};"></div>`;
                 }
                 buildingHTML += '</div>';
                 cityHTML += buildingHTML;
@@ -328,5 +342,4 @@
     </script>
 </body>
 
-</html>
-    
+</html>    
